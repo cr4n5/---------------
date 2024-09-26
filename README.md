@@ -15,7 +15,7 @@
 1. **获取公钥**：
 
 - URL: /get_pubkey
-- method: POST
+- method: GET
 - response:
 
 已经存在密钥对，直接返回公钥
@@ -75,7 +75,7 @@
 4. **获取投票信息**：
 
 - URL: /get_vote_info
-- method: POST
+- method: GET
 - response:
 
 ```json
@@ -98,7 +98,7 @@ Error:
 5. **获取投票结果**：
 
 - URL: /get_vote_result
-- method: POST
+- method: GET
 - response:
 
 分数为总分

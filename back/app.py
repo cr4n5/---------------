@@ -21,7 +21,7 @@ def restart():
     return jsonify({'status': 'success', 'message': 'Restart success'})
 
 # 获取公钥
-@app.route('/get_pubkey', methods=['POST'])
+@app.route('/get_pubkey', methods=['GET'])
 def get_pubkey():
     # 判断是否存在key.json
     if os.path.exists('key.json'):
@@ -43,7 +43,7 @@ def set_vote_info():
     return jsonify({'status': 'success', 'message': 'Vote info saved'})
 
 # 获取投票对象信息
-@app.route('/get_vote_info', methods=['POST'])
+@app.route('/get_vote_info', methods=['GET'])
 def get_vote_info():
     if os.path.exists('vote_info.json'):
         with open('vote_info.json', 'r') as f:
@@ -53,7 +53,7 @@ def get_vote_info():
         return jsonify({'status': 'error', 'message': 'No vote info'})
 
 # 获取投票结果
-@app.route('/get_vote_result', methods=['POST'])
+@app.route('/get_vote_result', methods=['GET'])
 def get_vote_result():
     if os.path.exists('sum_dec.json'):
         with open('sum_dec.json', 'r') as f:
