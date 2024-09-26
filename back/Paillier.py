@@ -37,9 +37,9 @@ def homomorphic_addition(pk, c1, c2):
     n, g = pk
     return (c1 * c2) % n**2
 
-def save_keypair(bits=256):
+def save_keypair(path,bits=256):
     public_key, private_key = generate_keypair(bits)
-    with open('key.json', 'w') as f:
+    with open(path, 'w') as f:
         json.dump({'public_key': public_key, 'private_key': private_key}, f)
 
 

@@ -18,36 +18,44 @@
 - method: GET
 - response:
 
-已经存在密钥对，直接返回公钥
-
 ```json
 {
     "status": "success",
     "message": "Public key fetched",
-    "key": [123, 123]
+    "key": {
+        "班干部":[123,123],
+        "学习委员":[123,123]
+    }
 }
 ```
 
-没有密钥对，生成密钥对并返回公钥
-
-```json
-{
-    "status": "success",
-    "message": "Public key generated",
-    "key": [123, 123]
-}
-```
-
-2. **重新开始投票（删除密钥对,删除投票对象信息,删除投票结果）**：
+2. **删除投票会话（删除密钥对,删除投票对象信息,删除投票结果）**：
 
 - URL: /restart
 - method: POST
+- request:
+
+```json
+{
+    "vote_obj": "班干部",
+}
+```
+
 - response:
 
 ```json
 {
     "status": "success",
     "message": "Restart success"
+}
+```
+
+Error:
+
+```json
+{
+    "status": "error",
+    "message": "No vote info"
 }
 ```
 
@@ -59,6 +67,7 @@
 
 ```json
 {
+    "vote_obj": "班干部",
     "list": ["teacher1", "teacher2", "teacher3"]
 }
 ```
@@ -82,7 +91,16 @@
 {
     "status": "success",
     "message": "Vote info fetched",
-    "list": ["teacher1", "teacher2", "teacher3"]
+    "result":[
+        {
+            "vote_obj": "班干部",
+            "list": ["teacher1", "teacher2", "teacher3"]
+        },
+        {
+            "vote_obj": "学习委员",
+            "list": ["student1", "student2", "student3"]
+        }
+    ]
 }
 ```
 
@@ -102,17 +120,53 @@ Error:
 - response:
 
 分数为总分
+正常包含投票结果
 
 ```json
 {
     "status": "success",
     "message": "Vote result fetched",
-    "result": {
-        "teacher1": 123,
-        "teacher2": 123,
-        "teacher3": 123
-    },
-    "vote_people_number":123
+    "vote_obj":{
+        "班干部":{
+            "result": {
+                "teacher1": 123,
+                "teacher2": 123,
+                "teacher3": 123
+            },
+            "vote_people_number":123
+        },
+        "学习委员":{
+            "result": {
+                "student1": 123,
+                "student2": 123,
+                "student3": 123
+            },
+            "vote_people_number":123
+        },
+    }
+}
+```
+
+有投票会话未有人投票
+
+```json
+{
+    "status": "success",
+    "message": "Vote result fetched",
+    "vote_obj":{
+        "班干部":{
+            "result": "No vote result", 
+            "vote_people_number":0
+        },
+        "学习委员":{
+            "result": {
+                "student1": 123,
+                "student2": 123,
+                "student3": 123
+            },
+            "vote_people_number":123
+        },
+    }
 }
 ```
 
@@ -124,6 +178,7 @@ Error:
 
 ```json
 {
+    "vote_obj": "班干部",
     "vote_sum":{
         "teacher1":123,
         "teacher2":123,
@@ -144,16 +199,33 @@ Error:
 
 ### 三方计算 `端口号：5001`
 
-1. **重新开始投票（删除加密投票信息）**：
+1. **删除投票会话（删除加密投票信息）**：
 
 - URL: /restart
 - method: POST
+- request:
+
+```json
+{
+    "vote_obj": "班干部",
+}
+```
+
 - response:
 
 ```json
 {
     "status": "success",
     "message": "Restart success"
+}
+```
+
+Error:
+
+```json
+{
+    "status": "error",
+    "message": "No vote info"
 }
 ```
 
@@ -166,6 +238,7 @@ Error:
 ```json
 {
     "username": "userA",
+    "vote_obj": "班干部",
     "vote": {
         "teacher1":123,
         "teacher2":123,
