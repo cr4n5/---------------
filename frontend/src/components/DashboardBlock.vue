@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto" max-width="368">
+  <v-card variant="tonal" class="mx-auto" max-width="368">
     <v-card-item :title="props.title">
       <template v-slot:subtitle>
         <v-icon
@@ -59,7 +59,13 @@ type Props = TextProps & TitleProps & SubtitleProps & IconProps
 
 const props = defineProps<Props>()
 </script>
+
 <style scoped>
+/* 应用 JetBrains Mono 字体 */
+* {
+  font-family: 'JetBrains Mono', monospace;
+}
+
 .small-unit {
   font-size: 0.4em; /* 调整为你需要的大小 */
 }
