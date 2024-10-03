@@ -1,10 +1,11 @@
 <template>
-  <v-container style="max-width: 500px">
+  <v-container>
     <v-text-field
       v-model="newTask"
-      label="What are you working on?"
+      label="请选择你要投票的人"
       variant="solo"
       @keydown.enter="create"
+      disabled
     >
       <template v-slot:append-inner>
         <v-fade-transition>
@@ -14,7 +15,7 @@
     </v-text-field>
 
     <h2 class="text-h4 text-success ps-4">
-      Tasks:&nbsp;
+      选项:&nbsp;
       <v-fade-transition leave-absolute>
         <span :key="`tasks-${tasks.length}`">
           {{ tasks.length }}
@@ -25,11 +26,11 @@
     <v-divider class="mt-4"></v-divider>
 
     <v-row align="center" class="my-1">
-      <strong class="mx-4 text-info-darken-2"> Remaining: {{ remainingTasks }} </strong>
+      <strong class="mx-4 text-info-darken-2"> 未选中: {{ remainingTasks }} </strong>
 
       <v-divider vertical></v-divider>
 
-      <strong class="mx-4 text-success-darken-2"> Completed: {{ completedTasks }} </strong>
+      <strong class="mx-4 text-success-darken-2"> 已选中: {{ completedTasks }} </strong>
 
       <v-spacer></v-spacer>
 
@@ -38,7 +39,7 @@
 
     <v-divider class="mb-4"></v-divider>
 
-    <v-card v-if="tasks.length > 0">
+    <v-card v-if="tasks.length > 0" style="max-height: 200px" class="overflow-y-auto">
       <v-slide-y-transition class="py-0" tag="v-list" group>
         <template v-for="(task, i) in tasks" :key="`${i}-${task.text}`">
           <v-divider v-if="i !== 0" :key="`${i}-divider`"></v-divider>
@@ -61,6 +62,9 @@
         </template>
       </v-slide-y-transition>
     </v-card>
+    <v-divider class="mb-4"></v-divider>
+
+    <v-btn class="mb-4" block color="success" @click="create"> 提交 </v-btn>
   </v-container>
 </template>
 <script setup lang="ts">
@@ -98,3 +102,13 @@ function create() {
   }
 }
 </script>
+<style scoped>
+/* 应用 JetBrains Mono 字体 */
+* {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.small-unit {
+  font-size: 0.4em; /* 调整为你需要的大小 */
+}
+</style>
