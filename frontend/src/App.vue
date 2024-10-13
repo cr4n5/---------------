@@ -18,15 +18,15 @@ darkThemeMq.addEventListener('change', updateTheme)
 
 <template>
   <v-layout class="rounded rounded-md">
-    <AppBar v-if="userStore.isLoggedIn" />
+    <AppBar v-if="userStore.isLoggedIn && !userStore.isAdmin" />
 
     <v-main class="d-flex align-center justify-center main-background">
       <div class="content">
-        <component :is="userStore.isLoggedIn ? RouterView : LoginView" />
+        <component :is="userStore.isLoggedIn && !userStore.isAdmin ? RouterView : LoginView" />
       </div>
     </v-main>
 
-    <BottomNav v-if="userStore.isLoggedIn" />
+    <BottomNav v-if="userStore.isLoggedIn && !userStore.isAdmin" />
   </v-layout>
 </template>
 
