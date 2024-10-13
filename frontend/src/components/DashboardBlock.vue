@@ -33,8 +33,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
-
 interface TextProps {
   text: string
   textUnit: string
