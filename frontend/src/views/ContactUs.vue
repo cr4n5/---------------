@@ -2,7 +2,7 @@
   <v-container class="pa-4">
     <!-- 页面标题 -->
     <v-row justify="center">
-      <v-col cols="12" md="8">
+      <v-col cols="12" md="6">
         <v-card class="pa-4">
           <v-card-title class="headline">
             <v-icon left>mdi-account-circle</v-icon>
@@ -10,8 +10,8 @@
           </v-card-title>
           <v-card-subtitle>通过以下方式与我们联系</v-card-subtitle>
           <v-card-text>
-            <v-row>
-              <v-col cols="12" md="4" class="text-center">
+            <v-row justify="center">
+              <v-col cols="12" class="text-center">
                 <v-avatar size="120">
                   <img
                     src="https://avatars.githubusercontent.com/sd0ric4"
@@ -21,7 +21,7 @@
                 </v-avatar>
                 <p class="mt-2">sd0ric4</p>
               </v-col>
-              <v-col cols="12" md="8">
+              <v-col cols="12">
                 <v-list dense>
                   <v-list-item>
                     <v-list-item-icon>
@@ -29,7 +29,9 @@
                     </v-list-item-icon>
                     <v-list-item-content>
                       <v-list-item-title>
-                        <a href="https://github.com/sd0ric4" target="_blank">GitHub</a>
+                        <a href="https://github.com/sd0ric4" target="_blank"
+                          >https://github.com/sd0ric4</a
+                        >
                       </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
@@ -46,7 +48,7 @@
                       <v-icon>mdi-phone</v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
-                      <v-list-item-title>+195 4919 1273</v-list-item-title>
+                      <v-list-item-title>+86 195 4919 1273</v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
                 </v-list>
@@ -74,11 +76,8 @@
 .avatar-img {
   width: 100%;
   height: auto;
-  max-width: 80px; /* 确保图片不会超过 v-avatar 的大小 */
+  max-width: 120px; /* 确保图片不会超过 v-avatar 的大小 */
   border-radius: 50%;
   object-fit: cover;
-}
-.blurred {
-  backdrop-filter: blur(20px);
 }
 </style>

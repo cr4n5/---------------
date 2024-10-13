@@ -22,7 +22,7 @@ const vuetify = createVuetify({
     defaultSet: 'mdi' // This is already the default value - only for display purposes
   },
   theme: {
-    defaultTheme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    defaultTheme: 'dark'
   }
 })
 

@@ -15,10 +15,7 @@
         hide-details
         single-line
       ></v-text-field>
-      <v-btn icon>
-        <!-- 切换夜间模式和白天模式，图标为太阳和月亮 -->
-        <v-icon>mdi-weather-night</v-icon>
-      </v-btn>
+      <schema-switch-button />
     </template>
 
     <v-app-bar-title id="code-blocks">{{ currentTitle }}</v-app-bar-title>
@@ -67,7 +64,7 @@
 import { ref, watch, type Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
-
+import SchemaSwitchButton from './SchemaSwitchButton.vue'
 // 如果用户名为null，默认terrasia
 const userName = useUserStore().username || 'terrasia'
 // 退出登录,然后跳转到登录页面

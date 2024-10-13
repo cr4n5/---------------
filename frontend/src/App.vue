@@ -4,7 +4,16 @@ import BottomNav from './components/BottomNav.vue'
 import AppBar from './components/AppBar.vue'
 import { useUserStore } from './stores/user'
 import LoginView from './views/LoginView.vue'
+import { useTheme } from 'vuetify'
 const userStore = useUserStore()
+const theme = useTheme()
+// 检测系统主题变化
+const updateTheme = (e: MediaQueryListEvent) => {
+  theme.global.name.value = e.matches ? 'dark' : 'light'
+}
+
+const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)')
+darkThemeMq.addEventListener('change', updateTheme)
 </script>
 
 <template>
