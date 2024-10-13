@@ -1,46 +1,63 @@
 import { defineStore } from 'pinia'
+import { jwtDecode } from 'jwt-decode'
 
-// 设置了24小时的过期时间
-const USERNAME_KEY = 'username'
-const TIMESTAMP_KEY = 'timestamp'
-const EXPIRATION_TIME = 24 * 60 * 60 * 1000 // 24 hours in milliseconds
+const TOKEN_KEY = 'jwt_token'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    username: getUsernameFromLocalStorage()
+    token: getTokenFromLocalStorage(),
+    isAdmin: false
   }),
   actions: {
-    login(username: string) {
-      this.username = username
-      localStorage.setItem(USERNAME_KEY, username)
-      localStorage.setItem(TIMESTAMP_KEY, Date.now().toString())
+    login(token: string) {
+      this.token = token
+      const decodedToken: any = jwtDecode(token)
+      console.log('exp', decodedToken.exp)
+      this.isAdmin = decodedToken.isAdmin
+      localStorage.setItem(TOKEN_KEY, token)
+      console.log('Logged in as', decodedToken.username)
     },
     logout() {
-      this.username = null
-      localStorage.removeItem(USERNAME_KEY)
-      localStorage.removeItem(TIMESTAMP_KEY)
+      this.token = null
+      this.isAdmin = false
+      localStorage.removeItem(TOKEN_KEY)
+      console.log('Logged out')
     }
   },
   getters: {
-    isLoggedIn: (state) => !!state.username
+    isLoggedIn: (state) => !!state.token,
+    username: (state) => {
+      if (state.token) {
+        try {
+          const decodedToken: any = jwtDecode(state.token)
+          return decodedToken.username
+        } catch (e) {
+          return null
+        }
+      }
+      return null
+    }
   }
 })
 
-function getUsernameFromLocalStorage(): string | null {
-  const username = localStorage.getItem(USERNAME_KEY)
-  const timestamp = localStorage.getItem(TIMESTAMP_KEY)
-
-  if (username && timestamp) {
-    const currentTime = Date.now()
-    const savedTime = parseInt(timestamp, 10)
-
-    if (currentTime - savedTime < EXPIRATION_TIME) {
-      return username
-    } else {
-      localStorage.removeItem(USERNAME_KEY)
-      localStorage.removeItem(TIMESTAMP_KEY)
+function getTokenFromLocalStorage(): string | null {
+  const token = localStorage.getItem(TOKEN_KEY)
+  if (token) {
+    try {
+      const decodedToken: any = jwtDecode(token)
+      console.log('exp', decodedToken.exp)
+      const currentTime = Date.now() / 1000
+      if (decodedToken.exp > currentTime) {
+        console.log('Token is still valid')
+        return token
+      } else {
+        console.log('Token has expired')
+        localStorage.removeItem(TOKEN_KEY)
+      }
+    } catch (e) {
+      console.error('Error decoding', e)
+      localStorage.removeItem(TOKEN_KEY)
     }
   }
-
   return null
 }

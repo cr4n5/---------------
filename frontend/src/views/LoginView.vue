@@ -2,6 +2,7 @@
   <v-container>
     <v-form @submit.prevent="handleSubmit">
       <v-text-field v-model="username" label="用户名" required></v-text-field>
+      <v-text-field v-model="password" label="密码" required></v-text-field>
       <v-row>
         <v-col cols="12">
           <v-btn type="submit" block>登录</v-btn>
@@ -17,16 +18,40 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/user'
 
 const username = ref('')
+const password = ref('') // 假设需要密码进行登录
 const router = useRouter()
 const userStore = useUserStore()
+const BackendApiUrl = import.meta.env.VITE_BACKEND_DATA_CONSUMER_API_URL
+console.log('后端地址:', BackendApiUrl)
 
-function handleSubmit() {
-  if (username.value) {
-    userStore.login(username.value)
-    console.log('用户名:', username.value)
-    router.push({ name: 'home' }) // 登录成功后跳转到首页
+async function handleSubmit() {
+  if (username.value && password.value) {
+    try {
+      const response = await fetch(`${BackendApiUrl}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: username.value,
+          password: password.value
+        })
+      })
+
+      if (!response.ok) {
+        throw new Error('登录失败')
+      }
+
+      const data = await response.json()
+      const token = data.token
+      userStore.login(token)
+      router.push({ name: 'home' }) // 登录成功后跳转到首页
+    } catch (error) {
+      alert('登录失败，请检查用户名和密码')
+      console.error(error)
+    }
   } else {
-    alert('请输入用户名')
+    alert('请输入用户名和密码')
   }
 }
 </script>
