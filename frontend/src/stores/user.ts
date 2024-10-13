@@ -4,10 +4,24 @@ import { jwtDecode } from 'jwt-decode'
 const TOKEN_KEY = 'jwt_token'
 
 export const useUserStore = defineStore('user', {
-  state: () => ({
-    token: getTokenFromLocalStorage(),
-    isAdmin: false
-  }),
+  state: () => {
+    const token = getTokenFromLocalStorage()
+    let isAdmin = false
+
+    if (token) {
+      try {
+        const decodedToken: any = jwtDecode(token)
+        isAdmin = decodedToken.isAdmin
+      } catch (error) {
+        console.error('Failed to decode token:', error)
+      }
+    }
+
+    return {
+      token,
+      isAdmin
+    }
+  },
   actions: {
     login(token: string) {
       this.token = token
