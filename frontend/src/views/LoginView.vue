@@ -1,8 +1,22 @@
 <template>
   <v-container>
     <v-form @submit.prevent="handleSubmit">
-      <v-text-field v-model="username" label="用户名" required></v-text-field>
-      <v-text-field v-model="password" label="密码" required></v-text-field>
+      <v-text-field
+        v-model="username"
+        name="username"
+        label="用户名"
+        type="text"
+        required
+        autocomplete="username"
+      ></v-text-field>
+      <v-text-field
+        v-model="password"
+        name="current-password"
+        label="密码"
+        type="password"
+        autocomplete="current-password"
+        required
+      ></v-text-field>
       <v-row>
         <v-col cols="12">
           <v-btn type="submit" block>登录</v-btn>
