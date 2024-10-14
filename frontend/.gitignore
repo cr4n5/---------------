@@ -28,3 +28,9 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+/dev-dist/
+localhost-key.pem
+localhost.pem
+.DS_Store
+.env
