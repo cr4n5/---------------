@@ -3,9 +3,10 @@ import requests
 from flask import Flask, request, send_file, jsonify
 import Paillier
 import os
+from flask_cors import CORS
 
 app = Flask(__name__)
-
+CORS(app)
 @app.route('/submit_vote', methods=['POST'])
 def submit_vote():
     data = request.json
@@ -58,7 +59,7 @@ def submit_vote():
             json.dump({'vote_sum': vote_sum, 'user_sum': user_sum}, f, ensure_ascii=False)
 
     # 将加密结果发送给数据需求方
-    url="http://127.0.0.1:5000/receive_vote"
+    url="http://192.168.0.118:5000/receive_vote"
     requests.post(url, json={'vote_obj':data["vote_obj"], 'vote_sum': vote_sum, 'user_sum': user_sum})
 
     return jsonify({'status': 'success', 'message': 'Vote submitted'})

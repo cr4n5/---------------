@@ -1,1 +1,4 @@
-{"vote_sum": {"teacher1": 101, "teacher2": 15, "teacher3": 113}, "user_sum_number": 3}
+{
+  "vote_sum": { "teacher1": 101, "teacher2": 15, "teacher3": 113 },
+  "user_sum_number": 3
+}

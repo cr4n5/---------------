@@ -4,6 +4,7 @@ from sympy import mod_inverse
 from Crypto.Util.number import getPrime
 import json
 
+
 def lcm(x, y):
     return x * y // gcd(x, y)
 
