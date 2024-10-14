@@ -1,0 +1,5 @@
+config.json
+users.csv
+__pycache__/
+.vscode/
+.cache/

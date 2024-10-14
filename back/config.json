@@ -1,0 +1,4 @@
+{
+  "SECRET_KEY": "your_secret_key",
+  "origins": ["http://localhost:5173", "http://192.168.0.1:*"]
+}
