@@ -17,14 +17,25 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },
     {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: () => import('../views/DashboardView.vue')
+      path: '/form',
+      name: 'form',
+      component: () => import('../views/user/dashboard/DashboardView.vue')
+    },
+    {
+      path: '/form/:vote_obj',
+      name: 'form-vote-details',
+      component: () => import('../views/user/dashboard/DashboardVoteDetails.vue')
     },
     {
       path: '/vote',
       name: 'vote',
-      component: () => import('../views/VoteForm.vue')
+      component: () => import('../views/user/vote/VoteView.vue')
+    },
+    {
+      path: '/vote/:vote_obj',
+      name: 'vote-details',
+      component: () => import('../views/user/vote/VoteDetails.vue'),
+      props: true
     },
     {
       path: '/contactus',
@@ -35,6 +46,34 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginView
+    },
+    {
+      path: '/manager',
+      name: 'manager',
+      component: () => import('../views/ManagerView.vue'),
+      children: [
+        {
+          path: 'home',
+          name: 'manager-home',
+          component: () => import('../views/manager/ManagerHome.vue')
+        },
+        {
+          path: 'settings',
+          name: 'manager-settings',
+          component: () => import('../views/manager/ManagerSettings.vue')
+        },
+        {
+          path: 'settings/:vote_obj',
+          name: 'manager-settings-vote-details',
+          component: () => import('../views/manager/setting/ManagerSettingsVoteDetails.vue'),
+          props: true
+        },
+        {
+          path: 'dashboard',
+          name: 'manager-dashboard',
+          component: () => import('../views/manager/setting/ManagerSettingsDashboards.vue')
+        }
+      ]
     }
   ]
 })

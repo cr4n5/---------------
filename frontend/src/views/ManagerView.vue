@@ -1,24 +1,15 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import BottomNav from './components/user/BottomNav.vue'
-import AppBar from './components/user/AppBar.vue'
-import { useUserStore } from './stores/user'
-import LoginView from './views/LoginView.vue'
-import { useTheme } from 'vuetify'
+import BottomNav from '@/components/manager/BottomNav.vue'
+import AppBar from '@/components/manager/AppBar.vue'
+import { useUserStore } from '@/stores/user'
+import LoginView from './LoginView.vue'
 const userStore = useUserStore()
-const theme = useTheme()
-// 检测系统主题变化
-const updateTheme = (e: MediaQueryListEvent) => {
-  theme.global.name.value = e.matches ? 'dark' : 'light'
-}
-
-const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)')
-darkThemeMq.addEventListener('change', updateTheme)
 </script>
 
 <template>
   <v-layout class="rounded rounded-md">
-    <AppBar v-if="userStore.isLoggedIn && !userStore.isAdmin" />
+    <AppBar />
 
     <v-main class="d-flex align-center justify-center main-background">
       <div class="content">
@@ -26,7 +17,7 @@ darkThemeMq.addEventListener('change', updateTheme)
       </div>
     </v-main>
 
-    <BottomNav v-if="userStore.isLoggedIn && !userStore.isAdmin" />
+    <BottomNav />
   </v-layout>
 </template>
 

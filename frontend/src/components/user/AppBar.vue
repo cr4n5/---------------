@@ -8,13 +8,6 @@
       ></v-app-bar-nav-icon>
     </template>
     <template v-slot:append>
-      <v-text-field
-        label="Search"
-        prepend-inner-icon="mdi-magnify"
-        variant="outlined"
-        hide-details
-        single-line
-      ></v-text-field>
       <schema-switch-button />
     </template>
 
@@ -64,7 +57,7 @@
 import { ref, watch, type Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
-import SchemaSwitchButton from './SchemaSwitchButton.vue'
+import SchemaSwitchButton from '../SchemaSwitchButton.vue'
 // 如果用户名为null，默认terrasia
 const userName = useUserStore().username || 'terrasia'
 // 退出登录,然后跳转到登录页面
@@ -93,10 +86,10 @@ const items: Item[] = [
     icon: 'mdi-vote'
   },
   {
-    title: 'dashboard',
-    value: '仪表盘',
-    link: '/dashboard',
-    icon: 'mdi-view-dashboard'
+    title: 'form',
+    value: '表单',
+    link: '/form',
+    icon: 'mdi-list-box-outline'
   }
 ]
 

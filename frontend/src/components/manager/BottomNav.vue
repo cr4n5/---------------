@@ -8,29 +8,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 
 const value = ref(1)
 const buttons = [
-  { to: { name: 'home' }, icon: 'mdi-home', label: 'Home' },
-  { to: { name: 'vote' }, icon: 'mdi-vote', label: 'Vote' },
-  { to: { name: 'dashboard' }, icon: 'mdi-view-dashboard', label: 'Dashboard' }
+  { to: { name: 'manager-home' }, icon: 'mdi-home', label: 'Home' },
+  { to: { name: 'manager-settings' }, icon: 'mdi-cog', label: 'Settings' },
+  { to: { name: 'manager-dashboard' }, icon: 'mdi-view-dashboard', label: 'Dashboard' }
 ]
-
-const color = computed(() => {
-  switch (value.value) {
-    case 0:
-      return 'blue-grey'
-    case 1:
-      return 'teal'
-    case 2:
-      return 'brown'
-    case 3:
-      return 'indigo'
-    default:
-      return 'blue-grey'
-  }
-})
 </script>
 
 <style lang="css" scoped>

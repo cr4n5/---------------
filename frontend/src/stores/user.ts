@@ -26,16 +26,13 @@ export const useUserStore = defineStore('user', {
     login(token: string) {
       this.token = token
       const decodedToken: any = jwtDecode(token)
-      console.log('exp', decodedToken.exp)
       this.isAdmin = decodedToken.isAdmin
       localStorage.setItem(TOKEN_KEY, token)
-      console.log('Logged in as', decodedToken.username)
     },
     logout() {
       this.token = null
       this.isAdmin = false
       localStorage.removeItem(TOKEN_KEY)
-      console.log('Logged out')
     }
   },
   getters: {
@@ -59,13 +56,10 @@ function getTokenFromLocalStorage(): string | null {
   if (token) {
     try {
       const decodedToken: any = jwtDecode(token)
-      console.log('exp', decodedToken.exp)
       const currentTime = Date.now() / 1000
       if (decodedToken.exp > currentTime) {
-        console.log('Token is still valid')
         return token
       } else {
-        console.log('Token has expired')
         localStorage.removeItem(TOKEN_KEY)
       }
     } catch (e) {

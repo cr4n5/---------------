@@ -8,6 +8,7 @@
         type="text"
         required
         autocomplete="username"
+        clearable
       ></v-text-field>
       <v-text-field
         v-model="password"
@@ -16,6 +17,7 @@
         type="password"
         autocomplete="current-password"
         required
+        clearable
       ></v-text-field>
       <v-row>
         <v-col cols="12">
@@ -30,36 +32,23 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/user'
-
+import { login } from '@/api/fetchDataConsumer'
 const username = ref('')
 const password = ref('') // 假设需要密码进行登录
 const router = useRouter()
 const userStore = useUserStore()
-const BackendApiUrl = import.meta.env.VITE_BACKEND_DATA_CONSUMER_API_URL
-console.log('后端地址:', BackendApiUrl)
 
 async function handleSubmit() {
   if (username.value && password.value) {
     try {
-      const response = await fetch(`${BackendApiUrl}/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          username: username.value,
-          password: password.value
-        })
-      })
-
-      if (!response.ok) {
-        throw new Error('登录失败')
-      }
-
-      const data = await response.json()
-      const token = data.token
+      const token = await login(username.value, password.value)
       userStore.login(token)
-      router.push({ name: 'home' }) // 登录成功后跳转到首页
+      // 判断是否是管理员
+      if (userStore.isAdmin) {
+        router.push({ name: 'manager-home' }) // 登录成功后跳转到管理员页面
+      } else {
+        router.push({ name: 'home' }) // 登录成功后跳转到首页
+      }
     } catch (error) {
       alert('登录失败，请检查用户名和密码')
       console.error(error)
