@@ -33,6 +33,8 @@ def get_pubkey():
             with open('vote/' + file+"/key.json", 'r') as f:
                 now_key = json.load(f)
             public_key = now_key['public_key']
+            # 转化成字符串
+            public_key = [str(public_key[0]), str(public_key[1])]
             key[file]=public_key
         return jsonify({'status': 'success', 'message': 'Public key fetched', 'key': key})
 
