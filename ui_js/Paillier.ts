@@ -1,53 +1,42 @@
-import * as crypto from 'crypto';
-
-// 计算 L(u) = (u - 1) / n
-function L(u: bigint, n: bigint): bigint {
-    return (u - 1n) / n;
-}
-
 // 生成一个在 [1, n-1] 范围内的随机大整数
 function randomBigInt(n: bigint): bigint {
-    const byteLength = Math.ceil(n.toString(2).length / 8);
-    let r: bigint;
+    const byteLength = Math.ceil(n.toString(2).length / 8)
+    let r: bigint
     do {
-        r = BigInt('0x' + crypto.randomBytes(byteLength).toString('hex'));
-    } while (r >= n);
-    return r;
-}
-
-// 快速幂算法计算 (base ** exp) % mod
-function modPow(base: bigint, exp: bigint, mod: bigint): bigint {
-    let result = 1n;
-    base = base % mod;
+      const randomBytes = new Uint8Array(byteLength)
+      crypto.getRandomValues(randomBytes)
+      r = BigInt(
+        '0x' +
+          Array.from(randomBytes)
+            .map((b) => b.toString(16).padStart(2, '0'))
+            .join('')
+      )
+    } while (r >= n)
+    return r
+  }
+  // 快速幂算法计算 (base ** exp) % mod
+  function modPow(base: bigint, exp: bigint, mod: bigint): bigint {
+    let result = 1n
+    base = base % mod
     while (exp > 0) {
-        if (exp % 2n === 1n) {
-            result = (result * base) % mod;
-        }
-        exp = exp >> 1n;
-        base = (base * base) % mod;
+      if (exp % 2n === 1n) {
+        result = (result * base) % mod
+      }
+      exp = exp >> 1n
+      base = (base * base) % mod
     }
-    return result;
-}
-
-// 加密函数
-function encrypt(pk: [bigint, bigint], m: bigint): bigint {
-    const [n, g] = pk;
-    const r = randomBigInt(n - 1n) + 1n;
-    const n2 = n ** 2n;
-    const c = (modPow(g, m, n2) * modPow(r, n, n2)) % n2;
-    return c;
-}
-
-// 解密函数
-function decrypt(sk: [bigint, bigint], pk: [bigint, bigint], c: bigint): bigint {
-    const [n, g] = pk;
-    const [λ, μ] = sk;
-    const n2 = n ** 2n;
-    const u = modPow(c, λ, n2);
-    const l = L(u, n);
-    const m = (l * μ) % n;
-    return m;
-}
+    return result
+  }
+  
+  // 加密函数
+  export function encrypt(pk: [bigint, bigint], m: bigint): bigint {
+    const [n, g] = pk
+    const r = randomBigInt(n - 1n) + 1n
+    const n2 = n ** 2n
+    const c = (modPow(g, m, n2) * modPow(r, n, n2)) % n2
+    return c
+  }
+  
 
 // 示例使用
 const publicKey: [bigint, bigint] = [BigInt('9292770072280002632872384766929534187704042406374927299421759497484867499398448709157541684874762332977442863512477087398283677218674298619842062068118713'), BigInt('15358756879889351578838625081596159635274139051861385797559489777439838291132907758243816265063412349701422197035171747363819013261112999252404469915446046185826640108460741874088520082898327915390410786727896843993564847109934874886947930388392882621797849835302209575609304274087327679322157387232981713937')];
@@ -55,8 +44,8 @@ const privateKey: [bigint, bigint] = [BigInt('4646385036140001316436192383464767
 
 const m1 = 42n;
 const c1 = encrypt(publicKey, m1);
-const decryptedM1 = decrypt(privateKey, publicKey, c1);
+// const decryptedM1 = decrypt(privateKey, publicKey, c1);
 
 console.log(`Original message: ${m1}`);
 console.log(`Encrypted message: ${c1}`);
-console.log(`Decrypted message: ${decryptedM1}`);
+// console.log(`Decrypted message: ${decryptedM1}`);

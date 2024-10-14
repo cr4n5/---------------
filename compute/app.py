@@ -40,8 +40,10 @@ def submit_vote():
             for file in file_list:# 遍历所有投票文件,更新投票结果
                 if file == data['username'] + '.json':# 除去初始化时所使用的当前投票者结果
                     continue
+                if file == 'sum.json':
+                    continue
                 else:
-                    with open(path_head+file, 'r',encoding="utf-8") as f:
+                    with open(path_head+"/"+file, 'r',encoding="utf-8") as f:
                         vote_data = json.load(f)
                     for vote_obj in vote_data['vote']:
                         vote_sum[vote_obj] = Paillier.homomorphic_addition(pubkey, vote_data['vote'][vote_obj], vote_sum[vote_obj])

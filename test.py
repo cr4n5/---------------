@@ -58,6 +58,18 @@ if __name__ == "__main__":
 
     data={
         "vote_obj": "班干部",
+        "username": "userA",
+        "vote": {
+            "teacher1":Paillier.encrypt(pubkey["班干部"], 90),
+            "teacher2":Paillier.encrypt(pubkey["班干部"], 2),
+            "teacher3":Paillier.encrypt(pubkey["班干部"], 98)
+        },
+        "pubkey": pubkey["班干部"]
+    }
+    submit_vote(data)
+
+    data={
+        "vote_obj": "班干部",
         "username": "userB",
         "vote": {
             "teacher1":Paillier.encrypt(pubkey["班干部"], 4),
