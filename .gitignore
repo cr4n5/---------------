@@ -3,3 +3,4 @@ ui_js/node_modules
 #所有的__pycache__文件夹,包括子文件夹里的
 __pycache__/
 */__pycache__/*
+*.json
