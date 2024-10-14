@@ -26,6 +26,8 @@ def encrypt(pk, m):
     return c
 
 def decrypt(sk, pk, c):
+    if type(c) == str:
+        c = int(c)
     n, g = pk
     λ, μ = sk
     u = pow(c, λ, n**2)
@@ -35,11 +37,21 @@ def decrypt(sk, pk, c):
 
 def homomorphic_addition(pk, c1, c2):
     n, g = pk
+    # 判断pk，c1，c2是否为str
+    if type(c1) == str:
+        c1 = int(c1)
+    if type(c2) == str:
+        c2 = int(c2)
+    if type(n) == str:
+        n = int(n)
+    if type(g) == str:
+        g = int(g)
+
     return (c1 * c2) % n**2
 
-def save_keypair(bits=256):
+def save_keypair(path,bits=256):
     public_key, private_key = generate_keypair(bits)
-    with open('key.json', 'w') as f:
+    with open(path, 'w') as f:
         json.dump({'public_key': public_key, 'private_key': private_key}, f)
 
 
