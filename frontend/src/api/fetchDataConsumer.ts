@@ -69,9 +69,11 @@ export interface VoteResultResponse {
   message: string
   vote_obj: {
     [key: string]: {
-      result: {
-        [key: string]: number
-      }
+      result:
+        | string
+        | {
+            [key: string]: number
+          }
       vote_people_number: number
     }
   }
@@ -248,6 +250,21 @@ export async function getVoteResult(jwtToken: string): Promise<VoteResultRespons
     }
 
     const data: VoteResultResponse = await response.json()
+    // 处理特殊情况
+    for (const key in data.vote_obj) {
+      if (data.vote_obj[key].result === 'No vote result') {
+        const voteInfo = await getVoteInfo(jwtToken)
+        const voteOptions = voteInfo.result.find((info) => info.vote_obj === key)?.list || []
+        data.vote_obj[key].result = voteOptions.reduce(
+          (acc: { [option: string]: number }, option: string) => {
+            acc[option] = 0
+            return acc
+          },
+          {}
+        )
+        data.vote_obj[key].vote_people_number = 0
+      }
+    }
     return data
   } catch (error) {
     console.error('获取投票结果失败:', error)
