@@ -5,6 +5,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    network_mode: bridge
+    environment:
+    - VITE_BACKEND_DATA_CONSUMER_API_URL=http://new-url:5000
+    - VITE_BACKEND_THIRD_COMPUTE_API_URL=http://new-url:5001
     ports:
       - "11480:80"
     restart: always
