@@ -68,16 +68,18 @@ if (token !== null) {
   getVoteResult(token)
     .then((res: VoteResultResponse) => {
       if (res.status === 'success' && res.code === 200) {
-        tasks.value = Object.keys(res.vote_obj).flatMap((key) => {
-          const item = res.vote_obj[key]
-          const result = item.result
-          return Object.keys(result).map((optionKey) => {
+        console.log(res)
+        const item = res.vote_obj[vote_obj]
+        if (item) {
+          const result = item.result as { [key: string]: number }
+          console.log(result)
+          tasks.value = Object.keys(result).map((optionKey) => {
             return {
               option: optionKey,
               score: result[optionKey]
             }
           })
-        })
+        }
       }
     })
     .catch((error) => {
