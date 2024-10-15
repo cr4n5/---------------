@@ -37,7 +37,8 @@ const username = ref('')
 const password = ref('') // 假设需要密码进行登录
 const router = useRouter()
 const userStore = useUserStore()
-
+const BackendApiUrl = import.meta.env.VITE_BACKEND_DATA_CONSUMER_API_URL
+console.log(BackendApiUrl)
 async function handleSubmit() {
   if (username.value && password.value) {
     try {
